@@ -5,16 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: sans-serif; background: #111; color: #fff; text-align: center; padding: 20px; }
-        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; background: #0088cc; border: none; border-radius: 12px; color: #fff; font-size: 16px; font-weight: bold; }
+        body { font-family: sans-serif; background: #000; color: #fff; text-align: center; padding: 20px; }
+        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; background: #0088cc; border: none; border-radius: 12px; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .lang-row { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
+        .btn-s { flex: 1; padding: 15px; background: #333; border-radius: 12px; font-size: 20px; border: none; color: #fff; cursor: pointer; }
     </style>
 </head>
 <body>
     <h2>METEO MENU</h2>
-    <button class="btn" onclick="send('🚀 Почати перевірку')">🚀 Перевірити погоду</button>
-    <button class="btn" onclick="send('🇺🇦 Українська')">🇺🇦 Українська</button>
-    <button class="btn" onclick="send('🇺🇸 English')">🇺🇸 English</button>
-    <button class="btn" onclick="send('📜 Команди бота')">📜 Список команд</button>
+    <button class="btn" onclick="send('🚀 Почати перевірку')">🚀 Почати перевірку</button>
+    
+    <p>Вибір мови / Language:</p>
+    <div class="lang-row">
+        <button class="btn-s" onclick="send('🇺🇦')">🇺🇦</button>
+        <button class="btn-s" onclick="send('🇺🇸')">🇺🇸</button>
+    </div>
+
+    <button class="btn" style="background:#444; margin-top:20px;" onclick="send('/description')">📜 Про автора</button>
     
     <script>
         const tg = window.Telegram.WebApp;
@@ -24,5 +31,7 @@
             tg.close();
         }
     </script>
+</body>
+</html>
 </body>
 </html>
