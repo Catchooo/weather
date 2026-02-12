@@ -1,86 +1,127 @@
 <!DOCTYPE html>
-<html>
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App Menu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Meteo App Pro</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --card-bg: #161616;
+            --accent-color: #0088cc;
+            --text-main: #ffffff;
+            --text-dim: #888888;
+        }
+
         body {
-            font-family: sans-serif;
-            background-color: #1c1c1c;
-            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 0;
-            padding: 20px;
+            overflow-x: hidden;
         }
+
         .container { width: 100%; max-width: 400px; }
-        .page { display: none; text-align: center; animation: fadeIn 0.3s; }
-        .active { display: block; }
-        
-        button {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 12px;
-            background: #2481cc;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
+
+        .page { 
+            display: none; 
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
         }
-        .nav-btn { background: #333; margin-top: 20px; }
+
+        .page.active { 
+            display: block; 
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 { font-size: 24px; margin-bottom: 20px; color: var(--accent-color); }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            margin: 12px 0;
+            border: none;
+            border-radius: 15px;
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            border: 1px solid #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn:active { transform: scale(0.98); background: #202020; }
         
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        h2 { color: #2481cc; }
+        .btn-main { background: var(--accent-color); border: none; }
+
+        .back-btn { background: transparent; color: var(--text-dim); margin-top: 20px; text-decoration: underline; }
+
+        .status-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; }
     </style>
 </head>
 <body>
     <div class="container">
         <div id="main" class="page active">
-            <h2>🌦 Метео Меню</h2>
-            <button onclick="showPage('start')">🚀 Почати перевірку</button>
-            <button onclick="showPage('lang')">🌐 Вибір мови</button>
-            <button onclick="showPage('about')">👨‍💻 Про автора</button>
-        </div>
-
-        <div id="start" class="page">
-            <h2>Перевірка погоди</h2>
-            <p>Натисніть кнопку нижче, щоб бот запитав у вас назву міста в чаті.</p>
-            <button onclick="sendAction('🚀 Почати перевірку')">Запустити в боті</button>
-            <button class="nav-btn" onclick="showPage('main')">⬅️ Назад</button>
+            <div style="display: flex; align-items: center; gap: 10px; justify-content: center;">
+                <div class="status-dot"></div>
+                <h2>Метео Контроль</h2>
+            </div>
+            <button class="btn btn-main" onclick="sendAction('🚀 Почати перевірку')">🚀 Почати перевірку</button>
+            <button class="btn" onclick="showPage('lang')">🌐 Мова / Language</button>
+            <button class="btn" onclick="showPage('about')">📜 Про систему</button>
         </div>
 
         <div id="lang" class="page">
-            <h2>🌐 Оберіть мову</h2>
-            <button onclick="sendAction('🇺🇦 Українська')">🇺🇦 Українська</button>
-            <button onclick="sendAction('🇺🇸 English')">🇺🇸 English</button>
-            <button class="nav-btn" onclick="showPage('main')">⬅️ Назад</button>
+            <h2>Оберіть мову</h2>
+            <button class="btn" onclick="sendAction('🇺🇦 Українська')">🇺🇦 Українська</button>
+            <button class="btn" onclick="sendAction('🇺🇸 English')">🇺🇸 English</button>
+            <button class="back-btn btn" onclick="showPage('main')">Назад</button>
         </div>
 
         <div id="about" class="page">
-            <h2>📜 Про автора</h2>
-            <p>Цей бот створений для швидкого отримання метеоданих та прогнозів.</p>
-            <p>Версія: 2.0 (Web App Edition)</p>
-            <button class="nav-btn" onclick="showPage('main')">⬅️ Назад</button>
+            <h2>Про автора</h2>
+            <div style="background: var(--card-bg); padding: 20px; border-radius: 15px; text-align: left; line-height: 1.6;">
+                <p>🛰 <b>Версія:</b> 2.5 Pro</p>
+                <p>🛠 <b>Технології:</b> AI, Open-Meteo, RainViewer.</p>
+                <p>Цей додаток інтегрує живі дані прогнозів прямо у ваш Telegram.</p>
+            </div>
+            <button class="back-btn btn" onclick="showPage('main')">Назад</button>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand(); // Розгорнути на весь екран
+        tg.ready();
+        tg.expand();
 
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+            setTimeout(() => {
+                document.getElementById(pageId).classList.add('active');
+            }, 50);
         }
 
         function sendAction(text) {
-            tg.sendData(text); // Відправляє текст боту і закриває вікно
-            tg.close();
+            // Для того щоб працювало на телефонах
+            if (tg.sendData) {
+                tg.sendData(text);
+            } else {
+                // Якщо відкрито не через клавіатурну кнопку, просто закриваємо
+                alert("Будь ласка, використовуйте кнопку 'Відкрити додаток' на клавіатурі бота.");
+                tg.close();
+            }
         }
     </script>
 </body>
