@@ -15,7 +15,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
@@ -24,15 +24,17 @@
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .container { width: 100%; max-width: 400px; }
 
+        /* Анімація появи сторінок */
         .page { 
             display: none; 
             opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.4s ease;
+            transform: translateY(15px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .page.active { 
@@ -41,85 +43,133 @@
             transform: translateY(0);
         }
 
-        h2 { font-size: 24px; margin-bottom: 20px; color: var(--accent-color); }
+        h2 { 
+            font-size: 24px; 
+            margin-bottom: 25px; 
+            color: var(--accent-color); 
+            text-align: center;
+            letter-spacing: 1px;
+        }
 
+        /* Стиль кнопок */
         .btn {
             width: 100%;
-            padding: 16px;
+            padding: 18px;
             margin: 12px 0;
-            border: none;
-            border-radius: 15px;
+            border: 1px solid #222;
+            border-radius: 16px;
             background: var(--card-bg);
             color: var(--text-main);
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-            border: 1px solid #222;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .btn:active { transform: scale(0.98); background: #202020; }
+        .btn:active {
+            transform: scale(0.96);
+            background: #202020;
+            border-color: var(--accent-color);
+        }
         
-        .btn-main { background: var(--accent-color); border: none; }
+        .btn-main {
+            background: var(--accent-color);
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+        }
 
-        .back-btn { background: transparent; color: var(--text-dim); margin-top: 20px; text-decoration: underline; }
+        .back-btn {
+            background: transparent;
+            color: var(--text-dim);
+            margin-top: 20px;
+            border: none;
+            text-decoration: underline;
+            font-size: 14px;
+        }
 
-        .status-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; }
+        /* Декоративний елемент */
+        .status-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #00ff88;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div id="main" class="page active">
-            <div style="display: flex; align-items: center; gap: 10px; justify-content: center;">
+            <div class="status-header">
                 <div class="status-dot"></div>
-                <h2>Метео Контроль</h2>
+                <span style="font-size: 12px; color: var(--text-dim); text-transform: uppercase;">Система активна</span>
             </div>
+            <h2>METEO MENU</h2>
             <button class="btn btn-main" onclick="sendAction('🚀 Почати перевірку')">🚀 Почати перевірку</button>
             <button class="btn" onclick="showPage('lang')">🌐 Мова / Language</button>
-            <button class="btn" onclick="showPage('about')">📜 Про систему</button>
+            <button class="btn" onclick="showPage('about')">👨‍💻 Про автора</button>
         </div>
 
         <div id="lang" class="page">
             <h2>Оберіть мову</h2>
             <button class="btn" onclick="sendAction('🇺🇦 Українська')">🇺🇦 Українська</button>
             <button class="btn" onclick="sendAction('🇺🇸 English')">🇺🇸 English</button>
-            <button class="back-btn btn" onclick="showPage('main')">Назад</button>
+            <button class="back-btn btn" onclick="showPage('main')">⬅️ Повернутися</button>
         </div>
 
         <div id="about" class="page">
             <h2>Про автора</h2>
-            <div style="background: var(--card-bg); padding: 20px; border-radius: 15px; text-align: left; line-height: 1.6;">
+            <div style="background: var(--card-bg); padding: 20px; border-radius: 18px; line-height: 1.6; border: 1px solid #222;">
                 <p>🛰 <b>Версія:</b> 2.5 Pro</p>
-                <p>🛠 <b>Технології:</b> AI, Open-Meteo, RainViewer.</p>
-                <p>Цей додаток інтегрує живі дані прогнозів прямо у ваш Telegram.</p>
+                <p>🛠 <b>База:</b> AI & Open-Meteo API</p>
+                <p style="color: var(--text-dim); font-size: 14px;">Цей міні-додаток дозволяє керувати функціями бота через інтерактивний інтерфейс.</p>
             </div>
-            <button class="back-btn btn" onclick="showPage('main')">Назад</button>
+            <button class="btn btn-main" style="margin-top: 20px;" onclick="sendAction('📜 Про автора')">📜 Деталі в чаті</button>
+            <button class="back-btn btn" onclick="showPage('main')">⬅️ Повернутися</button>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
+
+        // Ініціалізація Mini App
         tg.ready();
-        tg.expand();
+        tg.expand(); // Розгортаємо на весь екран
+
+        // Налаштування кольорів заголовка під тему
+        tg.setHeaderColor(tg.themeParams.bg_color || '#0a0a0a');
 
         function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            // Ховаємо всі сторінки
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+            });
+            // Показуємо потрібну з невеликою затримкою для плавного ефекту
             setTimeout(() => {
-                document.getElementById(pageId).classList.add('active');
+                const target = document.getElementById(pageId);
+                target.classList.add('active');
             }, 50);
         }
 
         function sendAction(text) {
-            // Для того щоб працювало на телефонах
+            // Перевіряємо, чи підтримує метод відправку даних (доступно тільки через KeyboardButton)
             if (tg.sendData) {
                 tg.sendData(text);
+                tg.close(); // Закриваємо апку після відправки
             } else {
-                // Якщо відкрито не через клавіатурну кнопку, просто закриваємо
-                alert("Будь ласка, використовуйте кнопку 'Відкрити додаток' на клавіатурі бота.");
+                // Якщо відкрито не через кнопку клавіатури, просто закриваємо вікно
                 tg.close();
             }
         }
